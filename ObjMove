@@ -1,0 +1,59 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class OBJmove : MonoBehaviour
+{
+    public int speed = 80;
+    public int speedrun = 90;
+    public int rotatespeed = 100;
+
+
+    public GameObject bullet;
+    public GameObject bulletPrefab;
+    public Transform bulletSpawn;
+
+
+    void Update()
+    {
+
+        //ยิง
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+
+            bullet = (GameObject)Instantiate(bulletPrefab,  //เรียกใช้Object bullet แล้วสร้างกระสุน // ตำแหน่งของกระสุน อ้างอิงจาก bulletSpawn (จุดเกิดของCharactor)
+                  new Vector3(bulletSpawn.position.x, bulletSpawn.position.y + 1.5f, bulletSpawn.position.z), bulletSpawn.rotation);
+            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 50; //ใส่ฟิสิก ใส่การเคลื่อนที่ไปข้างหน้า *15
+            Destroy(bullet, 2.0f);
+            return;
+
+
+        }
+
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            transform.Translate(-Vector3.forward * speed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            transform.Rotate(-Vector3.up * rotatespeed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            transform.Rotate(Vector3.up * rotatespeed * Time.deltaTime);
+        }
+
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            transform.Translate(Vector3.forward * speedrun * Time.deltaTime);
+        }
+
+
+    }
+}
