@@ -1,0 +1,54 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;  //เรียกใชเ UI interface
+
+public class itembox : MonoBehaviour
+{
+    public GameObject boom;
+    Renderer rend;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        rend = GetComponent<Renderer>();  //audio
+        rend.enabled = true;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.Rotate(new Vector3(0f, 45f * Time.deltaTime, 0f)); //itemหมุน
+    }
+
+
+    void OnTriggerEnter(Collider other)
+    {
+
+        gameManager.nScore++; //อ้างถึงgameManager ++
+
+        //---แสดงผล---\\
+        Text txt;  //สร้างตัวแปลประเภทText ชื่อ txt
+        txt = GameObject.Find("/Canvas/txtScore").GetComponent<Text>(); //หาtxtScoreของเกมมาเก็บไว้ในตัวแปลtxt
+        txt.text = "Score : " + gameManager.nScore; //เปลี่ยนผลคะแนนภายใต้ text โดยการเรียกใช้ .text
+
+
+        Instantiate(boom, this.gameObject.transform.position,
+            this.gameObject.transform.rotation);  // itemเกิดeffect
+
+
+
+        AudioSource audio = GetComponent<AudioSource>(); //audio
+        audio.Play();
+        rend.enabled = false;
+
+
+        Destroy(this.gameObject, 2.0f);
+
+
+
+        //ทำลายไอเทม ถ้าเป็น other  จะทำให้ตัวที่วิ่งมาชนหายไป 
+    }
+
+
+}
